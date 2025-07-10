@@ -8,6 +8,7 @@ import { loadAssets } from "./loaders.js"
 import {setup} from "./setup"
 
 
+
 function main() {
 
 // BASIC SETUP
@@ -15,7 +16,7 @@ function main() {
 var {scene,camera,renderer} = setup;
 
 var timeObject = { value: 0 };
-loadAssets(timeObject);
+let updateFunction=loadAssets(timeObject);
 
 // RENDER LOOP
 
@@ -109,6 +110,8 @@ function render(time)
 
     renderer.render(scene,camera);
     requestAnimationFrame ( render );
+    camera.controller.update()
+    updateFunction(time)
 }
 
 requestAnimationFrame ( render );

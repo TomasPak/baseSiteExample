@@ -40,7 +40,7 @@ export class Setup {
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.update();
-
+        camera.controller=controls
         // Add to instance
 
         this.scene = scene;
