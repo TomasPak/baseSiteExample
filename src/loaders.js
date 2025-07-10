@@ -121,7 +121,7 @@ export function loadAssets(timeObject) {
     
         gltfLoader.load(
         // resource URL
-        'Mapnew1.glb',
+        'Mapnew2.glb',
         // called when the resource is loaded
         function ( gltf ) {
     
@@ -147,6 +147,22 @@ export function loadAssets(timeObject) {
                     terrainMesh=mesh
                 }
             })
+
+        const animations = gltf.animations;
+
+        let mixer = new THREE.AnimationMixer( sceneObject );
+
+        let WalkingAnimation = mixer.clipAction( animations[ 0 ] );
+        //WalkingAnimation.play();
+
+        let clock = new THREE.Clock();
+
+        let playerAnimations = {"walk": WalkingAnimation}; 
+        
+        function UpdateMixer(){
+            let mixerUpdateDelta = clock.getDelta();
+            mixer.update( mixerUpdateDelta );
+        }
             function updatePlayer(time){
 
             // set player rotation from camera position
@@ -245,6 +261,7 @@ export function loadAssets(timeObject) {
             // adjust the camera based on the player movement
             camera.position.add(directionClone)
             camera.controller.target.copy(playerMesh.position)
+            UpdateMixer()
         }
         listforfunctions.push(updatePlayer)
         },
@@ -267,5 +284,6 @@ let listforfunctions=[]
         listforfunctions[i](time)
     }
 }
+
 return update_function
 }
