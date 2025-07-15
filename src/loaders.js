@@ -126,7 +126,7 @@ export function loadAssets(timeObject) {
         function ( gltf ) {
     
             scene.add( gltf.scene );
-    
+            let sceneObject = gltf.scene;
             gltf.animations; // Array<THREE.AnimationClip>
             gltf.scene; // THREE.Group
             gltf.scenes; // Array<THREE.Group>
@@ -153,7 +153,7 @@ export function loadAssets(timeObject) {
         let mixer = new THREE.AnimationMixer( sceneObject );
 
         let WalkingAnimation = mixer.clipAction( animations[ 0 ] );
-        //WalkingAnimation.play();
+        WalkingAnimation.play();
 
         let clock = new THREE.Clock();
 
