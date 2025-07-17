@@ -118,7 +118,8 @@ export function loadAssets(timeObject) {
     
     let raycaster = new THREE.Raycaster();
         raycaster.firstHitOnly = true;
-    
+    let RockList=[]
+    let RocksInventory=0
         gltfLoader.load(
         // resource URL
         'Mapnew2.glb',
@@ -146,14 +147,39 @@ export function loadAssets(timeObject) {
                     mesh.geometry.computeBoundsTree();
                     terrainMesh=mesh
                 }
+                if (mesh.name.slice(0,4)== "Rock"){
+                    RockList.push(mesh)
+                }
             })
+        let mouse= new THREE.Vector2()
+        document.addEventListener("click", interact)
+        function interact(event){
+            mouse.x= ( event.clientX / window.innerWidth ) * 2 - 1
+            mouse.y=- ( event.clientY / window.innerHeight ) * 2 + 1
+            raycaster.setFromCamera( mouse, camera )
+            let intersects = raycaster.intersectObjects( RockList )
+            console.log(intersects)
+            for ( let i = 0; i < intersects.length; i ++){
+                if(i==0){
+                    if(playerMesh.position.distanceTo(intersects[i].object.position)<17){
+                        console.log(intersects[i])
+                        intersects[i].object.visible= false
+                        RocksInventory++
+                        console.log(RocksInventory)
+                }
+                }
+            }
 
+        }
+        
         const animations = gltf.animations;
+
+        let sceneObject=gltf.scene
 
         let mixer = new THREE.AnimationMixer( sceneObject );
 
         let WalkingAnimation = mixer.clipAction( animations[ 0 ] );
-        //WalkingAnimation.play();
+        WalkingAnimation.play();
 
         let clock = new THREE.Clock();
 
