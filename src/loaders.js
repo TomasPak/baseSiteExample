@@ -127,7 +127,7 @@ export function loadAssets(timeObject) {
         function ( gltf ) {
     
             scene.add( gltf.scene );
-    
+            let sceneObject = gltf.scene;
             gltf.animations; // Array<THREE.AnimationClip>
             gltf.scene; // THREE.Group
             gltf.scenes; // Array<THREE.Group>
